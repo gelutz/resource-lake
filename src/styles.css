@@ -1,3 +1,204 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+/* Self-hosted variable fonts (no external <link>) */
+@import '@fontsource-variable/outfit';
+@import '@fontsource-variable/jetbrains-mono';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   STILL WATER — calm minimal system for resource-lake
+   Cool near-black surfaces, hairline structure, single teal
+   accent (the "lake"). Dark default, warm-free light mode.
+   ============================================================ */
+
+:root {
+  /* light = cool paper, not warm cream */
+  --background: #fafafa;
+  --background-elevated: #ffffff;
+  --foreground: #16181a;
+  --card: #ffffff;
+  --card-foreground: #16181a;
+  --muted: #f0f1f2;
+  --muted-foreground: #5c6066;
+  --accent: #0d9488;
+  --accent-foreground: #ffffff;
+  --accent-glow: rgba(13, 148, 136, 0.14);
+  --destructive: #c2410c;
+  --destructive-foreground: #ffffff;
+  --border: rgba(22, 24, 26, 0.1);
+  --border-strong: rgba(22, 24, 26, 0.2);
+  --input: rgba(22, 24, 26, 0.16);
+  --ring: #0d9488;
+  --grid-line: rgba(22, 24, 26, 0.045);
+
+  --font-sans: 'Outfit Variable', system-ui, sans-serif;
+  --font-display: 'Outfit Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  --radius: 0.5rem;
+
+  --shadow-sm: 0 2px 8px rgba(22, 24, 26, 0.06);
+  --shadow-md: 0 8px 28px rgba(22, 24, 26, 0.1);
+  --shadow-lg: 0 16px 48px rgba(22, 24, 26, 0.12);
+}
+
+.dark {
+  /* dark = cool near-black */
+  --background: #0a0b0c;
+  --background-elevated: #121416;
+  --foreground: #e7eaec;
+  --card: #0f1113;
+  --card-foreground: #e7eaec;
+  --muted: #16191c;
+  --muted-foreground: #868d93;
+  --accent: #2dd4bf;
+  --accent-foreground: #04110f;
+  --accent-glow: rgba(45, 212, 191, 0.12);
+  --destructive: #f97362;
+  --destructive-foreground: #0a0b0c;
+  --border: rgba(231, 234, 236, 0.08);
+  --border-strong: rgba(231, 234, 236, 0.16);
+  --input: rgba(231, 234, 236, 0.13);
+  --ring: #2dd4bf;
+  --grid-line: rgba(231, 234, 236, 0.032);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.65);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  /* Thin custom scrollbar to match the quiet aesthetic */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 999px;
+    border: 3px solid var(--background);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+}
+
+@layer utilities {
+  /* Display heading — same family, tighter tracking, no serif */
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  /* Mono eyebrow / metadata label (ration these — max 1 per 3 sections) */
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  /* Surface panel — hairline card */
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  /* Ambient grid backdrop — the thin lines */
+  .grid-backdrop {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .accent-text {
+    color: var(--accent);
+  }
+
+  /* Hover lift for interactive cards */
+  .card-hover {
+    transition:
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    box-shadow:
+      var(--shadow-md),
+      0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent),
+      0 12px 40px var(--accent-glow);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .card-hover {
+    transition: none;
+  }
+  .card-hover:hover {
+    transform: none;
+  }
+}
