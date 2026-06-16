@@ -2,7 +2,7 @@
 
 # 🌊 Resource Lake
 
-**A personal project — built for fun, learning, and curiosity.**
+**A personal project I build on my own time.**
 
 <br />
 
@@ -21,6 +21,6 @@
 
 ---
 
-> Hi 👋 I'm a developer building this on my own time.
+> Hi 👋 I'm a developer, and this is mine to tinker with.
 >
-> I use **AI agents** as part of my workflow to ship faster and explore ideas quickly — the direction, decisions, and review are mine; the AI just helps me move.
+> I code with **AI agents**. They write fast and explore options; I pick the direction, make the calls, and review what ships.
