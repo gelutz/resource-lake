@@ -1,12 +1,11 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { ThemeToggle } from './theme-toggle';
+import { ResourceGrid } from './resource-grid';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ThemeToggle, ResourceGrid],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
-export class App {
-  protected readonly title = signal('resource-lake');
-}
+export class App {}
