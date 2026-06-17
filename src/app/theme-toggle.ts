@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ThemeService } from './theme.service';
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { ThemeService } from "./service/theme.service";
 
 @Component({
-  selector: 'app-theme-toggle',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+	selector: "app-theme-toggle",
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	template: `
     <button
       type="button"
       class="panel card-hover grid size-9 place-items-center text-muted-foreground hover:text-foreground"
@@ -31,5 +31,5 @@ import { ThemeService } from './theme.service';
   `,
 })
 export class ThemeToggle {
-  protected readonly theme = inject(ThemeService);
+	protected readonly theme = inject(ThemeService);
 }
