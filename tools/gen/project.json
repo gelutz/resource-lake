@@ -1,0 +1,41 @@
+{
+  "name": "gen",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/gen/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/tools/gen",
+        "main": "tools/gen/src/index.ts",
+        "tsConfig": "tools/gen/tsconfig.lib.json",
+        "assets": [
+          "tools/gen/*.md",
+          {
+            "input": "./tools/gen/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./tools/gen/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./tools/gen",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./tools/gen",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    }
+  }
+}

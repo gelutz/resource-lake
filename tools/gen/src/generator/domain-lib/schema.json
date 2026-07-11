@@ -1,0 +1,36 @@
+{
+	"$schema": "https://json-schema.org/schema",
+	"$id": "DomainLib",
+	"title": "",
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string",
+			"description": "",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "What name would you like to use?"
+		},
+		"type": {
+			"type": "string",
+			"description": "",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "What type scope will it be?"
+		},
+		"scope": {
+			"type": "string",
+			"description": "",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "What platform scope will it be?"
+		}
+	},
+	"required": ["name", "type", "scope"]
+}
