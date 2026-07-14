@@ -1,5 +1,5 @@
 {
-	"name": "@resource-lake/source",
+	"name": "@rl/source",
 	"version": "0.0.0",
 	"license": "MIT",
 	"scripts": {},
@@ -27,7 +27,7 @@
 		"@nx/angular-rspack": "23.0.1",
 		"@nx/eslint": "23.0.1",
 		"@nx/eslint-plugin": "23.0.1",
-		"@nx/js": "^23.0.1",
+		"@nx/js": "^23.0.2",
 		"@nx/plugin": "23.0.1",
 		"@nx/rspack": "23.0.1",
 		"@nx/vite": "23.0.1",
@@ -49,6 +49,7 @@
 		"angular-eslint": "^21.2.0",
 		"eslint": "^9.8.0",
 		"eslint-config-prettier": "^10.0.0",
+		"jsonc-eslint-parser": "^2.1.0",
 		"nx": "23.0.1",
 		"prettier": "~3.6.2",
 		"ts-jest": "^29.4.0",

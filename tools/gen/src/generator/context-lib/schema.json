@@ -1,0 +1,18 @@
+{
+	"$schema": "https://json-schema.org/schema",
+	"$id": "DomainLib",
+	"title": "",
+	"type": "object",
+	"properties": {
+		"context": {
+			"type": "string",
+			"description": "",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "What context would you like to use?"
+		}
+	},
+	"required": ["context"]
+}

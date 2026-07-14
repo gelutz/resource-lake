@@ -14,12 +14,14 @@ export async function domainLibGenerator(
 	tree: Tree,
 	options: DomainLibGeneratorSchema,
 ) {
-	const projectRoot = `libs/${options.name}`;
-	const projectName = options.name;
+	const projectRoot = `libs/${options.scope}/${options.name}`;
+	const projectName = `${options.scope}/${options.name}`;
 
 	await libraryGenerator(tree, {
 		name: projectName,
 		directory: projectRoot,
+		linter: "eslint",
+		unitTestRunner: "none",
 	});
 
 	updateProjectConfiguration(tree, projectName, {

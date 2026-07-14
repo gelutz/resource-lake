@@ -1,13 +1,14 @@
 {
-  "name": "@resource-lake/gen",
-  "version": "0.0.1",
-  "private": true,
-  "type": "commonjs",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
-  "dependencies": {
-    "@nx/devkit": "23.0.1",
-    "tslib": "^2.3.0"
-  },
-  "generators": "./generators.json"
+	"name": "@resource-lake/gen",
+	"version": "0.0.1",
+	"private": true,
+	"type": "commonjs",
+	"main": "./src/index.js",
+	"types": "./src/index.d.ts",
+	"dependencies": {
+		"@nx/devkit": "23.0.1",
+		"tslib": "^2.3.0",
+		"@nx/js": "^23.0.2"
+	},
+	"generators": "./generators.json"
 }

@@ -1,0 +1,19 @@
+{
+  "name": "resources/ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/resources/ui/src",
+  "projectType": "library",
+  "tags": ["type:ui", "scope:resources"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/resources/ui",
+        "main": "libs/resources/ui/src/index.ts",
+        "tsConfig": "libs/resources/ui/tsconfig.lib.json",
+        "assets": ["libs/resources/ui/*.md"]
+      }
+    }
+  }
+}
