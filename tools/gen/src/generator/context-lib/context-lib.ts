@@ -7,7 +7,7 @@ export async function contextLibGenerator(
 	tree: Tree,
 	options: ContextLibGeneratorSchema,
 ) {
-	const types = ["domain", "feature", "infra", "ui", "util", "app"];
+	const types = ["domain", "feature", "infra", "ui", "app"];
 
 	for (const type of types) {
 		const domainLibOptions: DomainLibGeneratorSchema = {

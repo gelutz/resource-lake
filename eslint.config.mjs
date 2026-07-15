@@ -57,10 +57,6 @@ export default [
 							sourceTag: "type:domain",
 							onlyDependOnLibsWithTags: ["type:util"],
 						},
-						{
-							sourceTag: "type:util",
-							onlyDependOnLibsWithTags: ["type:util"],
-						},
 					],
 				},
 			],
