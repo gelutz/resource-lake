@@ -1,1 +1,1 @@
-const variable = 'domain';
+export * from "./resource/Resource";
