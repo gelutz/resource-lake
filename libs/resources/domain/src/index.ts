@@ -1,1 +1,1 @@
-export * from "./resource/Resource";
+export * from "./lib/resource/Resource";
