@@ -62,4 +62,13 @@ export class Resource {
 	get deleted() {
 		return this.#_deleted;
 	}
+
+	#touch() {
+		this.#updatedAt = new Date().toISOString();
+	}
+
+	markAsDeleted() {
+		this.#_deleted = true;
+		this.#touch();
+	}
 }

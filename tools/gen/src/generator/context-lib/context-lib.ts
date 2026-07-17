@@ -1,13 +1,13 @@
 import { Tree } from "@nx/devkit";
 import domainLibGenerator from "../domain-lib/domain-lib";
-import { DomainLibGeneratorSchema } from "../domain-lib/schema";
+import { DomainLibGeneratorSchema, DomainLibType } from "../domain-lib/schema";
 import { ContextLibGeneratorSchema } from "./schema";
 
 export async function contextLibGenerator(
 	tree: Tree,
 	options: ContextLibGeneratorSchema,
 ) {
-	const types = ["domain", "feature", "infra", "ui", "app"];
+	const types: DomainLibType[] = ["domain", "application", "infra", "ui"];
 
 	for (const type of types) {
 		const domainLibOptions: DomainLibGeneratorSchema = {

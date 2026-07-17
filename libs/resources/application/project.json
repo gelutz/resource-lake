@@ -1,0 +1,26 @@
+{
+  "name": "resources/application",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/resources/application/src",
+  "projectType": "library",
+  "tags": ["type:application", "scope:resources"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/resources/application",
+        "main": "libs/resources/application/src/index.ts",
+        "tsConfig": "libs/resources/application/tsconfig.lib.json",
+        "assets": ["libs/resources/application/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "coverage/libs/resources/application"
+      }
+    }
+  }
+}

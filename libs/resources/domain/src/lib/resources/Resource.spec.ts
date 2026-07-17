@@ -35,7 +35,6 @@ describe("Resource constructor invariants", () => {
 			category: ResourceCategory.Text,
 		});
 
-		// expect(typeof resource.updatedAt).toBe("string");
 		expect(typeof resource.createdAt).toBe("string");
 	});
 

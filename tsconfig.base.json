@@ -16,7 +16,9 @@
     "paths": {
       "@rl/gen": ["./tools/gen/src/index.ts"],
       "@rl/resources/domain": ["./libs/resources/domain/src/index.ts"],
-      "@rl/resources/feature": ["./libs/resources/feature/src/index.ts"],
+      "@rl/resources/application": [
+        "./libs/resources/application/src/index.ts"
+      ],
       "@rl/resources/infra": ["./libs/resources/infra/src/index.ts"],
       "@rl/resources/ui": ["./libs/resources/ui/src/index.ts"]
     }

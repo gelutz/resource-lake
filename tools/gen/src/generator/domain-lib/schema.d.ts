@@ -1,4 +1,4 @@
-export type DomainLibType = "domain" | "feature" | "infra" | "ui" | "app";
+export type DomainLibType = "domain" | "application" | "infra" | "ui";
 
 export interface DomainLibGeneratorSchema {
 	name: string;

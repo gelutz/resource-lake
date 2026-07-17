@@ -1,2 +1,2 @@
-export * from "./lib/resource/Resource";
-export * from "./lib/resource/ResourceFactory";
+export * from "./lib/resources/Resource";
+export * from "./lib/resources/ResourceFactory";
