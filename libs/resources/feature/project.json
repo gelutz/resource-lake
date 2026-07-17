@@ -14,6 +14,13 @@
         "tsConfig": "libs/resources/feature/tsconfig.lib.json",
         "assets": ["libs/resources/feature/*.md"]
       }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "coverage/libs/resources/feature"
+      }
     }
   }
 }
