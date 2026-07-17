@@ -1,1 +1,1 @@
-const variable = 'application';
+export * from "./lib/resources/ResourceAplicationService";
