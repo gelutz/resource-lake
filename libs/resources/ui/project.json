@@ -2,25 +2,19 @@
   "name": "resources/ui",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/resources/ui/src",
+  "prefix": "lib",
   "projectType": "library",
   "tags": ["type:ui", "scope:resources"],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/resources/ui",
-        "main": "libs/resources/ui/src/index.ts",
-        "tsConfig": "libs/resources/ui/tsconfig.lib.json",
-        "assets": ["libs/resources/ui/*.md"]
-      }
-    },
     "test": {
       "executor": "@nx/vitest:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
         "reportsDirectory": "coverage/libs/resources/ui"
       }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
     }
   }
 }

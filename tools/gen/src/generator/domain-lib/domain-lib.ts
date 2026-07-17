@@ -1,5 +1,4 @@
 import {
-	addProjectConfiguration,
 	formatFiles,
 	generateFiles,
 	readProjectConfiguration,
@@ -8,7 +7,16 @@ import {
 } from "@nx/devkit";
 import * as path from "path";
 import type { DomainLibGeneratorSchema } from "./schema";
-import { libraryGenerator } from "@nx/js";
+// @ts-expect-error - Node10 can't see exports-map subpaths
+import {
+	applicationGenerator as angularApplicationGenerator,
+	libraryGenerator as angularLibraryGenerator,
+	UnitTestRunner,
+} from "@nx/angular/generators";
+import { libraryGenerator as baseLibraryGenerator } from "@nx/js";
+
+const ANGULAR_APPLICATION_LAYER = new Set(["app"]);
+const ANGULAR_LIBRARY_LAYER = new Set(["ui", "feature"]);
 
 export async function domainLibGenerator(
 	tree: Tree,
@@ -16,13 +24,28 @@ export async function domainLibGenerator(
 ) {
 	const projectRoot = `libs/${options.scope}/${options.name}`;
 	const projectName = `${options.scope}/${options.name}`;
-
-	await libraryGenerator(tree, {
-		name: projectName,
-		directory: projectRoot,
-		linter: "eslint",
-		unitTestRunner: "vitest",
-	});
+	if (ANGULAR_LIBRARY_LAYER.has(options.type)) {
+		await angularLibraryGenerator(tree, {
+			name: projectName,
+			directory: projectRoot,
+			linter: "eslint",
+			unitTestRunner: UnitTestRunner.VitestAnalog,
+		});
+	} else if (ANGULAR_APPLICATION_LAYER.has(options.type)) {
+		await angularApplicationGenerator(tree, {
+			name: projectName,
+			directory: projectRoot,
+			linter: "eslint",
+			unitTestRunner: UnitTestRunner.VitestAnalog,
+		});
+	} else {
+		await baseLibraryGenerator(tree, {
+			name: projectName,
+			directory: projectRoot,
+			linter: "eslint",
+			unitTestRunner: "vitest",
+		});
+	}
 
 	updateProjectConfiguration(tree, projectName, {
 		...readProjectConfiguration(tree, projectName),
