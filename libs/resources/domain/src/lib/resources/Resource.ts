@@ -1,8 +1,9 @@
+import { AggregateRoot } from "../AggregateRoot";
 import { ResourceCategory } from "./constants/ResourceCategory";
 import { ResourceType } from "./constants/ResourceType";
 import { CreateResourceInput } from "./CreateResourceInput";
 
-export class Resource {
+export class Resource implements AggregateRoot<string> {
 	#id: string;
 	#type: ResourceType;
 	#category: ResourceCategory;
