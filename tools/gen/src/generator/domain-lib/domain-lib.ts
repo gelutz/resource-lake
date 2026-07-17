@@ -21,7 +21,7 @@ export async function domainLibGenerator(
 		name: projectName,
 		directory: projectRoot,
 		linter: "eslint",
-		unitTestRunner: "none",
+		unitTestRunner: "vitest",
 	});
 
 	updateProjectConfiguration(tree, projectName, {
