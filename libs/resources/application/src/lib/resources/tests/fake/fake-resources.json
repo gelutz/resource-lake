@@ -34,7 +34,7 @@
 		"title": "Q1 Report",
 		"payload": "https://cdn.example.com/files/q1-report.pdf",
 		"createdAt": "2026-01-09T08:00:00.000Z",
-		"deleted": true
+		"deleted": false
 	},
 	{
 		"id": "f708192a-5c6b-4e7f-a091-5e6f70819203",

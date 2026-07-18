@@ -1,31 +1,25 @@
-import { ResourceCategory } from "./constants/ResourceCategory";
-import { ResourceType } from "./constants/ResourceType";
 import { CreateResourceInput } from "./CreateResourceInput";
 import { Resource } from "./Resource";
 
-type CreateArticleResourceInput = {
-	title: string;
-	payload: string;
-};
-
 class ResourceFactoryImpl {
 	base = (input: CreateResourceInput): Resource => {
+		const id = crypto.randomUUID();
+		const createdAt = new Date().toISOString();
 		const { title, payload, type, category } = input;
 
 		return new Resource({
+			id,
 			title,
 			payload,
 			type,
 			category,
+			createdAt,
+			deleted: false,
 		});
 	};
 
-	article(input: CreateArticleResourceInput): Resource {
-		return this.base({
-			...input,
-			type: ResourceType.Link,
-			category: ResourceCategory.Text,
-		});
+	existent(input: Partial<Resource>): Resource {
+		return new Resource(input);
 	}
 }
 

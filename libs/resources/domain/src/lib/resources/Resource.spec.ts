@@ -4,37 +4,33 @@ import { Resource } from "./Resource";
 import { ResourceFactory } from "./ResourceFactory";
 
 describe("Resource constructor invariants", () => {
+	const createResourceInput = {
+		title: "Some title",
+		payload: "Some link",
+		type: ResourceType.Text,
+		category: ResourceCategory.Text,
+	};
+
 	it("id and createdAt should always be set", () => {
-		const resource = new Resource({
-			title: "Some title",
-			payload: "Some link",
-			type: ResourceType.Text,
-			category: ResourceCategory.Text,
-		});
+		const resource = ResourceFactory.base(createResourceInput);
 
 		expect(resource.id).not.toBeNull();
 		expect(resource.createdAt).not.toBeNull();
 	});
 
 	it("_deleted should be false when constructed", () => {
-		const resource = new Resource({
-			title: "Some title",
-			payload: "Some link",
-			type: ResourceType.Text,
-			category: ResourceCategory.Text,
-		});
-
+		const resource = ResourceFactory.base(createResourceInput);
 		expect(resource.deleted).toBeFalsy();
 	});
 
-	it("createdAt should be ISO strings", () => {
-		const resource = new Resource({
-			title: "Some title",
-			payload: "Some link",
-			type: ResourceType.Text,
-			category: ResourceCategory.Text,
-		});
+	it("should throw when trying to delete a deleted resource", () => {
+		const resource = ResourceFactory.base(createResourceInput);
+		resource.markAsDeleted();
+		expect(resource.markAsDeleted()).toThrow();
+	});
 
+	it("createdAt should be ISO strings", () => {
+		const resource = ResourceFactory.base(createResourceInput);
 		expect(typeof resource.createdAt).toBe("string");
 	});
 

@@ -1,7 +1,6 @@
 import { AggregateRoot } from "../AggregateRoot";
 import { ResourceCategory } from "./constants/ResourceCategory";
 import { ResourceType } from "./constants/ResourceType";
-import { CreateResourceInput } from "./CreateResourceInput";
 
 export class Resource implements AggregateRoot<string> {
 	#id: string;
@@ -13,22 +12,18 @@ export class Resource implements AggregateRoot<string> {
 	#updatedAt?: string;
 	#_deleted: boolean;
 
-	constructor(input: CreateResourceInput) {
-		const { title, payload, type, category } = input;
-		if (!Object.values(ResourceType).includes(type)) {
-			throw new Error(
-				"Tried to instantiate a Resource with invalid type: " + type,
-			);
-		}
-
-		if (!Object.values(ResourceCategory).includes(category)) {
-			throw new Error(
-				"Tried to instantiate a Resource with invalid category: " + category,
-			);
-		}
-
-		const id = crypto.randomUUID();
-		const createdAt = new Date().toISOString();
+	constructor(input: Partial<Resource>) {
+		this.validateInput(input);
+		const {
+			id,
+			title,
+			payload,
+			type,
+			category,
+			createdAt,
+			deleted,
+			updatedAt,
+		} = input;
 
 		this.#id = id;
 		this.#type = type;
@@ -36,7 +31,8 @@ export class Resource implements AggregateRoot<string> {
 		this.#title = title;
 		this.#payload = payload;
 		this.#createdAt = createdAt;
-		this.#_deleted = false;
+		this.#_deleted = deleted ?? false;
+		this.#updatedAt = updatedAt;
 	}
 
 	get id() {
@@ -64,8 +60,32 @@ export class Resource implements AggregateRoot<string> {
 		return this.#_deleted;
 	}
 
+	validateInput(input: Partial<Resource>): void {
+		if (!input.id?.length || !input.createdAt?.length) {
+			throw new Error("Either ID or CreatedAt, required fields, are missing.");
+		}
+
+		if (!Object.values(ResourceType).includes(input.type)) {
+			throw new Error(
+				"Tried to instantiate a Resource with invalid type: " + input.type,
+			);
+		}
+
+		if (!Object.values(ResourceCategory).includes(input.category)) {
+			throw new Error(
+				"Tried to instantiate a Resource with invalid category: " +
+					input.category,
+			);
+		}
+	}
+
 	#touch() {
 		this.#updatedAt = new Date().toISOString();
+	}
+
+	changeTitle(title: string) {
+		this.#title = title;
+		this.#touch();
 	}
 
 	markAsDeleted() {

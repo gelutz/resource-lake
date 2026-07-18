@@ -1,1 +1,1 @@
-export * from "./lib/resources/ResourceAplicationService";
+export * from "./lib/resources/ResourceApplicationService";

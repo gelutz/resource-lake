@@ -21,11 +21,12 @@ Dependencies point **inward**: `ui → application → domain` and
 - **domain** — entities + value objects + business rules. `Resource`,
   `Collection`, `Tag`, `Category`, `Highlight` with behavior
   (`resource.moveTo(collection)`, `resource.addHighlight(...)`,
-  `tag.rename(...)`). Pure TypeScript, unit-testable with zero setup. **No RxDB
-  import here** — see [[rxdb-constraints]].
+  `tag.rename(...)`). Also defines the **repository interfaces** (ports) —
+  see [[../decisions/0005-repository-ports-in-domain]]. Pure TypeScript,
+  unit-testable with zero setup. **No RxDB import here** — see
+  [[rxdb-constraints]].
 - **application** — use-cases orchestrating the domain: `SaveResource`,
-  `MoveResourceToCollection`, `RenameTag`, `MergeTags`. Defines **repository
-  interfaces** (ports). Depends only on domain.
+  `MoveResourceToCollection`, `RenameTag`, `MergeTags`. Depends only on domain.
 - **infra** — implements the repository interfaces over RxDB. Holds the RxDB
   **schemas**, the entity ⇄ document **mappers**, and the **replication** setup.
   This is the only layer that imports `rxdb`. See [[sync]].
@@ -34,8 +35,9 @@ Dependencies point **inward**: `ui → application → domain` and
 
 ## Dependency inversion (the key lesson)
 
-The repository **interface** is defined in `application` (the inner layer); the
-**implementation** lives in `infra` (the outer layer). The app project wires the
+The repository **interface** is defined in `domain` (the innermost layer — see
+[[../decisions/0005-repository-ports-in-domain]]); the **implementation** lives
+in `infra` (the outer layer). The app project wires the
 concrete implementation in at composition time. This is why the domain can stay
 ignorant of RxDB while still being persisted — and why swapping RxDB storage
 (Dexie on web, SQLite on mobile) touches only infra + app wiring.

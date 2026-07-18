@@ -1,7 +1,7 @@
 import { Resource } from "@rl/resources/domain";
 import { Resources } from "@rl/resources/domain";
 
-export class ResourceAplicationService {
+export class ResourceApplicationService {
 	constructor(private repository: Resources) {}
 
 	listResources = (filter?: Partial<Resource>) => {
