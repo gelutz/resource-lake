@@ -1,6 +1,7 @@
 import { AggregateRoot } from "../AggregateRoot";
 import { ResourceCategory } from "./constants/ResourceCategory";
 import { ResourceType } from "./constants/ResourceType";
+import { DomainBaseError } from "./DomainBaseError";
 
 export class Resource implements AggregateRoot<string> {
 	#id: string;
@@ -62,17 +63,19 @@ export class Resource implements AggregateRoot<string> {
 
 	validateInput(input: Partial<Resource>): void {
 		if (!input.id?.length || !input.createdAt?.length) {
-			throw new Error("Either ID or CreatedAt, required fields, are missing.");
+			throw new DomainBaseError(
+				"Either ID or CreatedAt, required fields, are missing.",
+			);
 		}
 
 		if (!Object.values(ResourceType).includes(input.type)) {
-			throw new Error(
+			throw new DomainBaseError(
 				"Tried to instantiate a Resource with invalid type: " + input.type,
 			);
 		}
 
 		if (!Object.values(ResourceCategory).includes(input.category)) {
-			throw new Error(
+			throw new DomainBaseError(
 				"Tried to instantiate a Resource with invalid category: " +
 					input.category,
 			);
@@ -89,6 +92,8 @@ export class Resource implements AggregateRoot<string> {
 	}
 
 	markAsDeleted() {
+		if (this.deleted)
+			throw new DomainBaseError("Tried to delete a deleted resource");
 		this.#_deleted = true;
 		this.#touch();
 	}
