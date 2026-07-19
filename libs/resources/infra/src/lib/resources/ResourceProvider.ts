@@ -1,19 +1,63 @@
-import { Resource, ResourceCategory, Resources } from "@rl/resources/domain";
+import {
+	Resource,
+	ResourceCategory,
+	ResourceFactory,
+	Resources,
+} from "@rl/resources/domain";
+import { RxCollection } from "rxdb";
+import { ResourceDocType } from "./ResourceSchema";
 
-class ResourceProvider implements Resources {
-	ofCategory(category: ResourceCategory): Resource[] {
-		throw new Error("Method not implemented.");
+const toDomain = (document: ResourceDocType): Resource => {
+	return ResourceFactory.existent(document);
+};
+
+const toDocument = (resource: Resource): ResourceDocType => {
+	return {
+		id: resource.id,
+		title: resource.title,
+		payload: resource.payload,
+		type: resource.type,
+		category: resource.category,
+		createdAt: resource.createdAt,
+		updatedAt: resource.updatedAt,
+	};
+};
+
+export class ResourceProvider implements Resources {
+	constructor(private readonly collection: RxCollection<ResourceDocType>) {}
+
+	async ofCategory(category: ResourceCategory): Promise<Resource[]> {
+		return this.collection
+			.find({
+				selector: { category },
+			})
+			.exec()
+			.then((document) => document.map(toDomain));
 	}
-	list(filter?: Partial<Resource>): Resource[] {
-		throw new Error("Method not implemented.");
+	async list(filter?: Partial<Resource>): Promise<Resource[]> {
+		return this.collection
+			.find({
+				selector: {
+					...filter,
+				},
+			})
+			.exec()
+			.then((document) => document.map(toDomain));
 	}
-	getById(id: string): Resource {
-		throw new Error("Method not implemented.");
+	async getById(id: string): Promise<Resource> {
+		return this.collection
+			.find({
+				selector: { id },
+			})
+			.exec()
+			.then(([resource]) => toDomain(resource));
 	}
-	save(t: Resource): Resource {
-		throw new Error("Method not implemented.");
+	async save(t: Resource): Promise<Resource> {
+		await this.collection.upsert(toDocument(t));
+		return t;
 	}
-	delete(id: string): void {
+
+	delete(id: string): Promise<void> {
 		throw new Error("Method not implemented.");
 	}
 }
