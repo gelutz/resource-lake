@@ -13,14 +13,11 @@ type CreateDatabaseInput = {
 	devMode: boolean;
 };
 
-interface Database {}
-
-interface StorageAdapter {
-	createDatabase(params: unknown): Database;
-}
-
 export class RxStorageAdapter {
-	createResourcesRxDatabase = async ({ storage, devMode }) => {
+	createResourcesRxDatabase = async ({
+		storage,
+		devMode,
+	}: CreateDatabaseInput) => {
 		if (devMode) {
 			disableWarnings();
 			addRxPlugin(RxDBDevModePlugin);

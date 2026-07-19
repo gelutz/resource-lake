@@ -3,6 +3,11 @@ import { ResourceCategory } from "./constants/ResourceCategory";
 import { ResourceType } from "./constants/ResourceType";
 import { DomainBaseError } from "./DomainBaseError";
 
+type ResourceProperties = Pick<
+	Resource,
+	"id" | "type" | "category" | "title" | "payload" | "createdAt" | "updatedAt"
+>;
+
 export class Resource implements AggregateRoot<string> {
 	#id: string;
 	#type: ResourceType;
@@ -11,20 +16,10 @@ export class Resource implements AggregateRoot<string> {
 	#payload: string;
 	#createdAt: string;
 	#updatedAt?: string;
-	#_deleted: boolean;
 
 	constructor(input: Partial<Resource>) {
 		this.validateInput(input);
-		const {
-			id,
-			title,
-			payload,
-			type,
-			category,
-			createdAt,
-			deleted,
-			updatedAt,
-		} = input;
+		const { id, title, payload, type, category, createdAt, updatedAt } = input;
 
 		this.#id = id;
 		this.#type = type;
@@ -32,7 +27,6 @@ export class Resource implements AggregateRoot<string> {
 		this.#title = title;
 		this.#payload = payload;
 		this.#createdAt = createdAt;
-		this.#_deleted = deleted ?? false;
 		this.#updatedAt = updatedAt;
 	}
 
@@ -57,9 +51,6 @@ export class Resource implements AggregateRoot<string> {
 	get updatedAt() {
 		return this.#updatedAt;
 	}
-	get deleted() {
-		return this.#_deleted;
-	}
 
 	validateInput(input: Partial<Resource>): void {
 		if (!input.id?.length || !input.createdAt?.length) {
@@ -80,21 +71,5 @@ export class Resource implements AggregateRoot<string> {
 					input.category,
 			);
 		}
-	}
-
-	#touch() {
-		this.#updatedAt = new Date().toISOString();
-	}
-
-	changeTitle(title: string) {
-		this.#title = title;
-		this.#touch();
-	}
-
-	markAsDeleted() {
-		if (this.deleted)
-			throw new DomainBaseError("Tried to delete a deleted resource");
-		this.#_deleted = true;
-		this.#touch();
 	}
 }

@@ -18,9 +18,7 @@ export class InMemoryResourceProvider implements Resources {
 	list(filter?: Partial<Resource>): Promise<Resource[]> {
 		const entries = [...this.#resources.values()];
 		const keys = filter ? (Object.keys(filter) as (keyof Resource)[]) : [];
-		const result = entries
-			.filter((r) => !r.deleted)
-			.filter((r) => keys.every((k) => r[k] === filter[k]));
+		const result = entries.filter((r) => keys.every((k) => r[k] === filter[k]));
 		return Promise.resolve(result);
 	}
 

@@ -14,7 +14,6 @@ class ResourceFactoryImpl {
 			type,
 			category,
 			createdAt,
-			deleted: false,
 		});
 	};
 

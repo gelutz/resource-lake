@@ -27,7 +27,6 @@ describe("Resource use-cases test suite", () => {
 		const result = await sut.saveResource(validResource);
 
 		expect(result.id).toBeDefined();
-		expect(result.deleted).toBeFalsy();
 	});
 
 	it("save should return a new instance of the object", async () => {
@@ -36,35 +35,5 @@ describe("Resource use-cases test suite", () => {
 
 		expect(result.title).toEqual(validResource.title);
 		expect(result).not.toBe(validResource);
-	});
-
-	it("should update when saving with an id that exists in the repo", async () => {
-		const validResource = makeResource();
-		const result = await sut.saveResource(validResource);
-
-		expect((await sut.listResources()).length).toEqual(resources.length);
-		expect(result.title).toEqual(validResource.title);
-
-		validResource.changeTitle("New title");
-
-		const result2 = await sut.saveResource(validResource);
-		console.log(result.title, result2.title);
-		expect(result.id).toEqual(result2.id);
-		expect(result.title).not.toEqual(result2.title);
-		expect((await sut.listResources()).length).toEqual(resources.length);
-	});
-
-	it("should mark as deleted and not be returned from list nor getById", async () => {
-		const listBeforeDeleting = await sut.listResources();
-		const validResource = listBeforeDeleting.at(0);
-		validResource.markAsDeleted();
-
-		await sut.saveResource(validResource);
-
-		const listAfterDeleting = await sut.listResources();
-		const sameIndexValidResource = listAfterDeleting.at(0);
-
-		expect(validResource.id).not.toEqual(sameIndexValidResource.id);
-		expect(listBeforeDeleting.length).not.toEqual(listAfterDeleting.length);
 	});
 });

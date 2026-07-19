@@ -18,17 +18,6 @@ describe("Resource constructor invariants", () => {
 		expect(resource.createdAt).not.toBeNull();
 	});
 
-	it("_deleted should be false when constructed", () => {
-		const resource = ResourceFactory.base(createResourceInput);
-		expect(resource.deleted).toBeFalsy();
-	});
-
-	it("should throw when trying to delete a deleted resource", () => {
-		const resource = ResourceFactory.base(createResourceInput);
-		resource.markAsDeleted();
-		expect(resource.markAsDeleted()).toThrow();
-	});
-
 	it("createdAt should be ISO strings", () => {
 		const resource = ResourceFactory.base(createResourceInput);
 		expect(typeof resource.createdAt).toBe("string");
