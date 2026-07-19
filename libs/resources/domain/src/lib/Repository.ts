@@ -1,8 +1,8 @@
 import { AggregateRoot } from "./AggregateRoot";
 
 export interface Repository<T extends AggregateRoot<ID>, ID> {
-	list(filter?: Partial<T>): T[];
-	getById(id: ID): T;
-	save(t: T): T;
-	delete(id: ID): void;
+	list(filter?: Partial<T>): Promise<T[]>;
+	getById(id: ID): Promise<T>;
+	save(t: T): Promise<T>;
+	delete(id: ID): Promise<void>;
 }

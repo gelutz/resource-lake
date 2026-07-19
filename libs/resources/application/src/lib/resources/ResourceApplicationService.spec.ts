@@ -1,11 +1,5 @@
 import { ResourceApplicationService } from "./ResourceApplicationService";
-import {
-	CreateResourceInput,
-	Resource,
-	ResourceCategory,
-	ResourceFactory,
-	ResourceType,
-} from "@rl/resources/domain";
+import { CreateResourceInput, ResourceFactory } from "@rl/resources/domain";
 import { InMemoryResourceProvider } from "./tests/fake/InMemoryResourceProvider";
 import fakeResourceData from "./tests/fake/fake-resources.json";
 
@@ -21,53 +15,53 @@ describe("Resource use-cases test suite", () => {
 		sut = new ResourceApplicationService(repositoryImpl);
 	});
 
-	it("should list available (not deleted) resources", () => {
-		const result = sut.listResources();
+	it("should list available (not deleted) resources", async () => {
+		const result = await sut.listResources();
 		const expectedLength = resources.length;
 
 		expect(result.length).toEqual(expectedLength);
 	});
 
-	it("should save when input is valid", () => {
+	it("should save when input is valid", async () => {
 		const validResource = makeResource();
-		const result = sut.saveResource(validResource);
+		const result = await sut.saveResource(validResource);
 
 		expect(result.id).toBeDefined();
 		expect(result.deleted).toBeFalsy();
 	});
 
-	it("save should return a new instance of the object", () => {
+	it("save should return a new instance of the object", async () => {
 		const validResource = makeResource();
-		const result = sut.saveResource(validResource);
+		const result = await sut.saveResource(validResource);
 
 		expect(result.title).toEqual(validResource.title);
 		expect(result).not.toBe(validResource);
 	});
 
-	it("should update when saving with an id that exists in the repo", () => {
+	it("should update when saving with an id that exists in the repo", async () => {
 		const validResource = makeResource();
-		const result = sut.saveResource(validResource);
+		const result = await sut.saveResource(validResource);
 
-		expect(sut.listResources().length).toEqual(resources.length);
+		expect((await sut.listResources()).length).toEqual(resources.length);
 		expect(result.title).toEqual(validResource.title);
 
 		validResource.changeTitle("New title");
 
-		const result2 = sut.saveResource(validResource);
+		const result2 = await sut.saveResource(validResource);
 		console.log(result.title, result2.title);
 		expect(result.id).toEqual(result2.id);
 		expect(result.title).not.toEqual(result2.title);
-		expect(sut.listResources().length).toEqual(resources.length);
+		expect((await sut.listResources()).length).toEqual(resources.length);
 	});
 
-	it("should mark as deleted and not be returned from list nor getById", () => {
-		const listBeforeDeleting = sut.listResources();
+	it("should mark as deleted and not be returned from list nor getById", async () => {
+		const listBeforeDeleting = await sut.listResources();
 		const validResource = listBeforeDeleting.at(0);
 		validResource.markAsDeleted();
 
-		sut.saveResource(validResource);
+		await sut.saveResource(validResource);
 
-		const listAfterDeleting = sut.listResources();
+		const listAfterDeleting = await sut.listResources();
 		const sameIndexValidResource = listAfterDeleting.at(0);
 
 		expect(validResource.id).not.toEqual(sameIndexValidResource.id);

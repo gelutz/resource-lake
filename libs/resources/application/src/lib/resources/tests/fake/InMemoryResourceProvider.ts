@@ -1,4 +1,9 @@
-import { Resource, ResourceFactory, Resources } from "@rl/resources/domain";
+import {
+	Resource,
+	ResourceCategory,
+	ResourceFactory,
+	Resources,
+} from "@rl/resources/domain";
 import { CreateResourceInput } from "@rl/resources/domain";
 
 export class InMemoryResourceProvider implements Resources {
@@ -10,34 +15,37 @@ export class InMemoryResourceProvider implements Resources {
 		);
 	}
 
-	list(filter?: Partial<Resource>): Resource[] {
+	list(filter?: Partial<Resource>): Promise<Resource[]> {
 		const entries = [...this.#resources.values()];
 		const keys = filter ? (Object.keys(filter) as (keyof Resource)[]) : [];
-		return entries
+		const result = entries
 			.filter((r) => !r.deleted)
 			.filter((r) => keys.every((k) => r[k] === filter[k]));
+		return Promise.resolve(result);
 	}
 
-	getById(id: string): Resource {
+	getById(id: string): Promise<Resource> {
 		const resource = this.#resources.get(id);
 		if (!resource) {
 			throw new Error("No resource found with id: " + id);
 		}
-		return resource;
+		return Promise.resolve(resource);
 	}
 
-	save(t: Resource): Resource {
+	save(t: Resource): Promise<Resource> {
 		this.#resources.set(t.id, t);
-		return ResourceFactory.existent(t);
+		return Promise.resolve(ResourceFactory.existent(t));
 	}
 
-	delete(id: string): void {
+	delete(id: string): Promise<void> {
 		this.#resources.delete(id);
+		return Promise.resolve();
 	}
 
-	ofCategory(categories: string[]): Resource["id"][] {
-		return [...this.#resources.values()]
-			.filter((r) => categories.includes(r.category))
-			.map((r) => r.id);
+	ofCategory(category: ResourceCategory): Promise<Resource[]> {
+		const result = [...this.#resources.values()].filter(
+			(r) => r.category === category,
+		);
+		return Promise.resolve(result);
 	}
 }
