@@ -18,7 +18,8 @@ swap ([[../architecture/sync]])?
   the composition root.
 - **App owns engine choice, factory owns dev guards.** The app builds the bare
   storage (`getRxStorageDexie()` on web, SQLite later on mobile) and reads
-  `devMode = import.meta.env.DEV`, then passes `{ storage, devMode }`. The
+  `devMode = process.env.NODE_ENV !== 'production'` (see
+  [[0007-dev-prod-split]]), then passes `{ storage, devMode }`. The
   factory applies the dev-only ajv wrap + dev-mode plugin. Mobile passes a
   different storage + the same flag — infra unchanged.
 - **Tests use `storage-memory`.** Infra tests call the same factory with the

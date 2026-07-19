@@ -22,9 +22,9 @@ as an **entity** with identity, but with a **closed, seeded population**. See
 
 - Category ids are stable enum values (`text`/`video`/`audio`/`image`), safe to
   reference from `Resource.categoryId` ([[../contexts/resources]]).
-- Likely a **static domain constant**, not necessarily its own RxDB collection —
-  no user writes means no need to sync it. Final call deferred to the spec;
-  leaning static.
+- **Decided (2026-07-19): static domain constant** — the `ResourceCategory`
+  enum in the domain lib. No RxDB collection: no user writes means nothing to
+  seed or sync. `label`/`icon` display data is a UI map keyed by enum id.
 - Clear separation of three orthogonal axes on a Resource:
   - **type** = payload shape (how stored/rendered)
   - **category** = content kind (fixed, one)

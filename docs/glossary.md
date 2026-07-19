@@ -14,8 +14,9 @@ i.e. how the resource is stored/rendered. Distinct from Category.
 ## Category
 *What kind of content* a resource is, from a **fixed, system-defined** set:
 `text | video | audio | image`. Exactly **one** per resource. Closed enum,
-users cannot create categories. An entity (has identity) but with a fixed
-population. See [[decisions/0004-category-fixed-enum]].
+users cannot create categories. Implemented as a **static domain enum**
+(`ResourceCategory`), not a persisted entity — no RxDB collection.
+See [[decisions/0004-category-fixed-enum]].
 
 > Note: Category (semantic content kind) ≠ Resource type (payload shape). A
 > `link` resource can have category `video` (a YouTube URL).
@@ -42,13 +43,16 @@ single entry point (the root). Here: `Resource` (owning its Highlights) and
 `Collection` are roots. See [[architecture/layering]].
 
 ## Repository
-An interface (defined in the application layer) for loading/saving an aggregate,
-implemented in the infra layer over RxDB. Keeps the domain ignorant of the
-database. See [[architecture/layering]].
+An interface (defined in the **domain** layer, beside the aggregate it serves —
+see [[decisions/0005-repository-ports-in-domain]]) for loading/saving an
+aggregate, implemented in the infra layer over RxDB. Keeps the domain ignorant
+of the database. See [[architecture/layering]].
 
 ## Soft-delete
 Deletion is a flag (`_deleted` / logical delete), never a physical row removal.
-Forced by RxDB replication. "Delete" is a command that sets state. See
+Forced by RxDB replication. Deletion is a **repository operation**
+(`repository.delete(id)` → RxDB `doc.remove()`); the domain entity does not
+carry deletion state. See [[decisions/0006-soft-delete-via-rxdb-deleted]] and
 [[architecture/rxdb-constraints]].
 
 ## Checkpoint

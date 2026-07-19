@@ -24,11 +24,16 @@ docs/
   contexts/
     resources.md               ← Resource aggregate, Highlight
     organization.md            ← Collection tree, Tag, Category
+  domain-map.md                ← Raindrop feature → ResourceLake v1 mapping
   decisions/
     0001-tag-as-entity.md      ← ADRs
     0002-buy-sync-supabase.md
     0003-cut-archive.md
     0004-category-fixed-enum.md
+    0005-repository-ports-in-domain.md
+    0006-soft-delete-via-rxdb-deleted.md
+    0007-dev-prod-split.md
+    0008-rxdb-composition-seam.md
 ```
 
 ## Reading order
@@ -65,4 +70,12 @@ docs/
 - [[decisions/0001-tag-as-entity]] — Tag is an entity, not a value object
 - [[decisions/0002-buy-sync-supabase]] — buy sync (Supabase plugin), don't build a backend
 - [[decisions/0003-cut-archive]] — cut permanent-copy / page archive from v1
-- [[decisions/0004-category-fixed-enum]] — Category is a fixed, system-defined enum entity
+- [[decisions/0004-category-fixed-enum]] — Category is a fixed, system-defined enum (static domain constant)
+- [[decisions/0005-repository-ports-in-domain]] — repository ports live in the domain layer
+- [[decisions/0006-soft-delete-via-rxdb-deleted]] — soft-delete via RxDB's native `_deleted`
+- [[decisions/0007-dev-prod-split]] — dev/prod split: engine parity + dev-only RxDB guards
+- [[decisions/0008-rxdb-composition-seam]] — infra DB factory, app injects storage
+
+### Domain map
+
+- [[domain-map]] — Raindrop feature → ResourceLake v1 mapping

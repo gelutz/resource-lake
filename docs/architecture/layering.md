@@ -9,7 +9,7 @@ see [[nx-boundaries]].
 | Layer         | Nx `type:` | Knows about                       | Never imports                    |
 |---------------|-----------|-----------------------------------|----------------------------------|
 | **domain**    | `domain`  | nothing (pure TS)                 | rxdb, angular, infra, application, ui |
-| **application** | `feature` | domain                          | rxdb, angular, infra, ui         |
+| **application** | `application` | domain                      | rxdb, angular, infra, ui         |
 | **infra**     | `infra`   | domain, application               | angular, ui                      |
 | **ui**        | `ui`      | domain, application               | infra                            |
 
@@ -47,8 +47,9 @@ ignorant of RxDB while still being persisted — and why swapping RxDB storage
 - **`Resource`** is an aggregate root that **owns its `Highlight`s** (nested,
   no independent lifecycle). See [[../contexts/resources]].
 - **`Collection`** is an aggregate root; the tree is modeled by `parentId`.
-- **`Tag`** and **`Category`** are their own small aggregates. See
-  [[../contexts/organization]].
+- **`Tag`** is its own small aggregate. **`Category`** is *not* an aggregate —
+  it is a static domain enum (`ResourceCategory`), never persisted. See
+  [[../contexts/organization]] and [[../decisions/0004-category-fixed-enum]].
 
 Cross-aggregate invariants (e.g. "deleting a Collection with children") are
 enforced in **application use-cases**, not the DB — RxDB gives no referential
@@ -58,11 +59,11 @@ integrity ([[rxdb-constraints]]).
 
 ```
 libs/
-  <context>/domain        type:domain    scope:<context>
-  <context>/application    type:feature   scope:<context>
-  <context>/infra          type:infra     scope:<context>
-  <context>/ui             type:ui        scope:<context>
-  shared/util              type:util      scope:shared
+  <context>/domain        type:domain       scope:<context>
+  <context>/application    type:application  scope:<context>
+  <context>/infra          type:infra        scope:<context>
+  <context>/ui             type:ui           scope:<context>
+  shared/util              type:util         scope:shared
 ```
 
 The `tools/gen` `domain-lib` generator should evolve to scaffold this quad with

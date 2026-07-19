@@ -53,21 +53,18 @@ merged and have those changes propagate. See [[../decisions/0001-tag-as-entity]]
   `tagIds` across affected Resources, then soft-deletes the source. Cross-aggregate
   → lives in application ([[../architecture/layering]]).
 
-## Entity: Category
+## Category (static domain enum)
 
 *What kind of content* a resource is. **Fixed, system-defined** population:
-`text | video | audio | image`. Users cannot create categories. An entity with
-identity but a closed set. See [[../decisions/0004-category-fixed-enum]].
+`text | video | audio | image`. Users cannot create categories.
+See [[../decisions/0004-category-fixed-enum]].
 
-| Field  | Type                                | Notes |
-|--------|-------------------------------------|-------|
-| `id`   | `text \| video \| audio \| image`    | stable enum id; primary key |
-| `label`| string                              | display name |
-| `icon` | string                              | UI icon key |
+**Decided: static domain constant** (`ResourceCategory` enum in the domain
+lib), **not** a persisted entity — no RxDB collection, nothing to seed or sync.
+The Resource validates its `category` against the enum at construction.
 
-- Seeded, not user-editable. May not even need its own RxDB collection — can be
-  a **static domain constant** the Resource validates against. Decide in the
-  spec; leaning static.
+- Display concerns (`label`, `icon`) are a UI-layer map keyed by the enum id,
+  not domain fields.
 - Distinct from Resource `type` (payload shape) — see
   [[resources#aggregate-resource]].
 

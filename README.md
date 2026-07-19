@@ -1,10 +1,11 @@
-<div align="center">
-
 # 🌊 Resource Lake
 
 **A personal project I build on my own time.**
 
+AI help on documenting and decision pinning (see `docs/`). All the code is human written.
+
 <br />
+<div align="center">
 
 ![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)

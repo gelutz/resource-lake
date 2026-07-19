@@ -10,7 +10,7 @@ Every lib is tagged on two axes in its `project.json`:
 
 ### `type:` — the layer (from [[layering]])
 - `type:domain` — pure domain, no dependencies
-- `type:feature` — application / use-cases
+- `type:application` — application / use-cases
 - `type:infra` — RxDB, repositories, replication
 - `type:ui` — Angular components
 - `type:util` — shared helpers, cross-cutting, dependency-free
@@ -30,15 +30,15 @@ Wire `@nx/enforce-module-boundaries` in the root eslint config with
 dependency direction, **scope** rules encode context isolation.
 
 ```jsonc
-// depConstraints (sketch — full version lives in eslint config)
+// depConstraints (sketch — full version lives in eslint.config.mjs)
 [
   // --- type / layer direction ---
-  { "sourceTag": "type:app",     "onlyDependOnLibsWithTags": ["type:ui","type:feature","type:infra","type:util"] },
-  { "sourceTag": "type:ui",      "onlyDependOnLibsWithTags": ["type:feature","type:domain","type:util"] },
-  { "sourceTag": "type:infra",   "onlyDependOnLibsWithTags": ["type:feature","type:domain","type:util"] },
-  { "sourceTag": "type:feature", "onlyDependOnLibsWithTags": ["type:domain","type:util"] },
-  { "sourceTag": "type:domain",  "onlyDependOnLibsWithTags": ["type:util"] },
-  { "sourceTag": "type:util",    "onlyDependOnLibsWithTags": ["type:util"] },
+  { "sourceTag": "type:app",         "onlyDependOnLibsWithTags": ["type:ui","type:application","type:infra","type:util"] },
+  { "sourceTag": "type:ui",          "onlyDependOnLibsWithTags": ["type:application","type:domain","type:util"] },
+  { "sourceTag": "type:infra",       "onlyDependOnLibsWithTags": ["type:application","type:domain","type:util"] },
+  { "sourceTag": "type:application", "onlyDependOnLibsWithTags": ["type:domain","type:util"] },
+  { "sourceTag": "type:domain",      "onlyDependOnLibsWithTags": ["type:util"] },
+  { "sourceTag": "type:util",        "onlyDependOnLibsWithTags": ["type:util"] },
 
   // --- scope / context isolation ---
   { "sourceTag": "scope:resources",    "onlyDependOnLibsWithTags": ["scope:resources","scope:shared"] },
@@ -47,6 +47,10 @@ dependency direction, **scope** rules encode context isolation.
   { "sourceTag": "scope:shared",       "onlyDependOnLibsWithTags": ["scope:shared"] }
 ]
 ```
+
+> Current `eslint.config.mjs` wires the `type:` direction rules plus
+> `scope:resources`/`scope:shared`. The `type:app`, `scope:organization` and
+> `scope:sync` rows above are added when those projects/contexts exist.
 
 **Effect:** `type:domain` importing `rxdb`-bearing `type:infra` = **lint error**.
 The dependency rule from [[layering]] is no longer a convention — Nx breaks the

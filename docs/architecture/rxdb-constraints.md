@@ -33,10 +33,12 @@ RxDB replication requires:
   rejects a push (default: master wins).
 
 **Consequences for the model:**
-- "Delete" is a **command that sets state**, modeled explicitly in the domain.
-- Every entity has `id`, `updatedAt`, `_deleted`. Treat these as an infra-level
-  envelope, kept **out of the pure domain entity** where possible (mapped in the
-  repository). See [[layering]].
+- "Delete" is a **repository operation** (`repository.delete(id)` → RxDB
+  `doc.remove()`), not domain state. The domain entity carries no `_deleted`
+  flag. See [[../decisions/0006-soft-delete-via-rxdb-deleted]].
+- `updatedAt` and `_deleted` are an **infra-level envelope**, kept **out of the
+  pure domain entity**: RxDB owns `_deleted`; the repository stamps `updatedAt`
+  on every `save()`. See [[layering]].
 
 ## Schema rules to respect (per RxDB schema docs)
 
