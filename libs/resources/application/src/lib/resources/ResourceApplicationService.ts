@@ -17,9 +17,6 @@ export class ResourceApplicationService {
 	};
 
 	deleteResource = async (id: Resource["id"]) => {
-		const target = await this.get(id);
-		target.markAsDeleted();
-		this.saveResource(target);
-		Promise.resolve();
+		return this.repository.delete(id);
 	};
 }

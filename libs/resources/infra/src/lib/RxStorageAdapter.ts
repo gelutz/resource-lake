@@ -1,8 +1,4 @@
-import {
-	getRxStorageDexie,
-	RxStorageDexie,
-	createDexieStorageInstance,
-} from "rxdb/plugins/storage-dexie";
+import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { addRxPlugin, createRxDatabase, type RxStorage } from "rxdb";
 import { disableWarnings, RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
 import { wrappedValidateAjvStorage } from "rxdb/plugins/validate-ajv";
@@ -13,8 +9,10 @@ type CreateDatabaseInput = {
 	devMode: boolean;
 };
 
+export const rxStorageDexieFactory = getRxStorageDexie;
+
 export class RxStorageAdapter {
-	createResourcesRxDatabase = async ({
+	createResourceDatabase = async ({
 		storage,
 		devMode,
 	}: CreateDatabaseInput) => {

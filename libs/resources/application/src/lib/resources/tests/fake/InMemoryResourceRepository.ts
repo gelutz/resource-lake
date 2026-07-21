@@ -6,7 +6,7 @@ import {
 } from "@rl/resources/domain";
 import { CreateResourceInput } from "@rl/resources/domain";
 
-export class InMemoryResourceProvider implements Resources {
+export class InMemoryResourceRepository implements Resources {
 	#resources: Map<string, Resource>;
 
 	constructor(snapshots: CreateResourceInput[]) {

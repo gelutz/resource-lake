@@ -1,6 +1,6 @@
 import { ResourceApplicationService } from "./ResourceApplicationService";
 import { CreateResourceInput, ResourceFactory } from "@rl/resources/domain";
-import { InMemoryResourceProvider } from "./tests/fake/InMemoryResourceProvider";
+import { InMemoryResourceRepository } from "./tests/fake/InMemoryResourceRepository";
 import fakeResourceData from "./tests/fake/fake-resources.json";
 
 describe("Resource use-cases test suite", () => {
@@ -11,7 +11,7 @@ describe("Resource use-cases test suite", () => {
 		ResourceFactory.existent(resources[index]);
 
 	beforeEach(() => {
-		const repositoryImpl = new InMemoryResourceProvider(resources);
+		const repositoryImpl = new InMemoryResourceRepository(resources);
 		sut = new ResourceApplicationService(repositoryImpl);
 	});
 

@@ -12,7 +12,7 @@ swap ([[../architecture/sync]])?
 
 ## Decision
 
-- **Infra exposes an async factory** `createResourceDb({ storage, devMode })`.
+- **Infra exposes an async factory** `createResourceDatabase({ storage, devMode })`.
   The app calls it once at bootstrap and registers the `Resources` repo in
   Angular DI (`apps/.../app.config.ts`). Infra stays framework-free; the app is
   the composition root.

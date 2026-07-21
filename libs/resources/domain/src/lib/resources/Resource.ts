@@ -3,9 +3,9 @@ import { ResourceCategory } from "./constants/ResourceCategory";
 import { ResourceType } from "./constants/ResourceType";
 import { DomainBaseError } from "./DomainBaseError";
 
-type ResourceProperties = Pick<
+export type ResourceProperties = Pick<
 	Resource,
-	"id" | "type" | "category" | "title" | "payload" | "createdAt" | "updatedAt"
+	"id" | "type" | "category" | "title" | "payload" | "createdAt"
 >;
 
 export class Resource implements AggregateRoot<string> {
@@ -15,11 +15,10 @@ export class Resource implements AggregateRoot<string> {
 	#title?: string;
 	#payload: string;
 	#createdAt: string;
-	#updatedAt?: string;
 
 	constructor(input: Partial<Resource>) {
 		this.validateInput(input);
-		const { id, title, payload, type, category, createdAt, updatedAt } = input;
+		const { id, title, payload, type, category, createdAt } = input;
 
 		this.#id = id;
 		this.#type = type;
@@ -27,7 +26,6 @@ export class Resource implements AggregateRoot<string> {
 		this.#title = title;
 		this.#payload = payload;
 		this.#createdAt = createdAt;
-		this.#updatedAt = updatedAt;
 	}
 
 	get id() {
@@ -47,9 +45,6 @@ export class Resource implements AggregateRoot<string> {
 	}
 	get createdAt() {
 		return this.#createdAt;
-	}
-	get updatedAt() {
-		return this.#updatedAt;
 	}
 
 	validateInput(input: Partial<Resource>): void {

@@ -1,16 +1,16 @@
 import { RxDatabase } from "rxdb";
 import { getRxStorageMemory } from "rxdb/plugins/storage-memory";
 import { RxStorageAdapter } from "../RxStorageAdapter";
-import { ResourceProvider } from "./ResourceProvider";
+import { ResourceRepository } from "./ResourceRepository";
 import {
 	ResourceCategory,
 	ResourceFactory,
 	ResourceType,
 } from "@rl/resources/domain";
 
-describe("ResourceProvider Integration Tests", () => {
+describe("ResourceRepository Integration Tests", () => {
 	let db: RxDatabase;
-	let sut: ResourceProvider;
+	let sut: ResourceRepository;
 
 	const makeResource = () =>
 		ResourceFactory.existent({
@@ -21,16 +21,15 @@ describe("ResourceProvider Integration Tests", () => {
 			payload:
 				"DDD focuses on modeling software to match a domain according to input from domain experts.",
 			createdAt: "2026-01-05T10:15:00.000Z",
-			deleted: false,
 		});
 
 	beforeEach(async () => {
-		db = await new RxStorageAdapter().createResourcesRxDatabase({
+		db = await new RxStorageAdapter().createResourceDatabase({
 			storage: getRxStorageMemory(),
 			devMode: true,
 		});
 
-		sut = new ResourceProvider(db.collections.resources);
+		sut = new ResourceRepository(db.collections.resources);
 	});
 
 	afterEach(async () => {
