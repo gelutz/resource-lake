@@ -1,3 +1,4 @@
+import { ResourceCategory } from "./constants/ResourceCategory";
 import { CreateResourceInput } from "./CreateResourceInput";
 import { Resource } from "./Resource";
 

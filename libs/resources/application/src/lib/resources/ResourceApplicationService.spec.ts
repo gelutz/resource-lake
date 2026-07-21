@@ -1,7 +1,7 @@
 import { ResourceApplicationService } from "./ResourceApplicationService";
 import { CreateResourceInput, ResourceFactory } from "@rl/resources/domain";
-import { InMemoryResourceRepository } from "./tests/fake/InMemoryResourceRepository";
-import fakeResourceData from "./tests/fake/fake-resources.json";
+import { InMemoryResourceRepository } from "./InMemoryResourceRepository";
+import { fakeResourceData } from "@rl/shared/util";
 
 describe("Resource use-cases test suite", () => {
 	let sut: ResourceApplicationService;

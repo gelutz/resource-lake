@@ -47,6 +47,16 @@ export class Resource implements AggregateRoot<string> {
 		return this.#createdAt;
 	}
 
+	changeType(newType: ResourceType) {
+		this.validateType(newType);
+		this.#type = newType;
+	}
+
+	changeCategory(newCategory: ResourceCategory) {
+		this.validateCategory(newCategory);
+		this.#category = newCategory;
+	}
+
 	validateInput(input: Partial<Resource>): void {
 		if (!input.id?.length || !input.createdAt?.length) {
 			throw new DomainBaseError(
@@ -54,16 +64,22 @@ export class Resource implements AggregateRoot<string> {
 			);
 		}
 
-		if (!Object.values(ResourceType).includes(input.type)) {
+		this.validateType(input.type);
+		this.validateCategory(input.category);
+	}
+
+	validateType(type: ResourceType | undefined): void {
+		if (!Object.values(ResourceType).includes(type)) {
 			throw new DomainBaseError(
-				"Tried to instantiate a Resource with invalid type: " + input.type,
+				"Tried to instantiate a Resource with invalid type: " + type,
 			);
 		}
+	}
 
-		if (!Object.values(ResourceCategory).includes(input.category)) {
+	validateCategory(category: ResourceCategory | undefined): void {
+		if (!Object.values(ResourceCategory).includes(category)) {
 			throw new DomainBaseError(
-				"Tried to instantiate a Resource with invalid category: " +
-					input.category,
+				"Tried to instantiate a Resource with invalid Category: " + category,
 			);
 		}
 	}

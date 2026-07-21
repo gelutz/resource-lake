@@ -1,8 +1,13 @@
-import { Resource, ResourceCategory, Resources } from "@rl/resources/domain";
+import {
+	Resource,
+	ResourceCategory,
+	ResourceProperties,
+	Resources,
+} from "@rl/resources/domain";
 import { RxCollection } from "rxdb";
 import { ResourceDocType } from "./ResourceSchema";
 import { ResourceConverter } from "./ResourceConverter";
-import { ResourceNotFoundError } from "./errors/ResourceNotFoundError";
+import { stripUndefined } from "../../utils/stripUndefined";
 
 export class ResourceRepository implements Resources {
 	constructor(private readonly collection: RxCollection<ResourceDocType>) {}
@@ -15,12 +20,10 @@ export class ResourceRepository implements Resources {
 			.exec()
 			.then((document) => document.map(ResourceConverter.toDomain));
 	}
-	async list(filter?: Partial<Resource>): Promise<Resource[]> {
+	async list(filter?: Partial<ResourceProperties>): Promise<Resource[]> {
 		return this.collection
 			.find({
-				selector: {
-					...filter,
-				},
+				selector: stripUndefined(filter),
 			})
 			.exec()
 			.then((document) => document.map(ResourceConverter.toDomain));
@@ -30,11 +33,8 @@ export class ResourceRepository implements Resources {
 			.findOne({
 				selector: { id },
 			})
-			.exec()
-			.then((resource) => {
-				if (!resource) throw new ResourceNotFoundError(id);
-				return ResourceConverter.toDomain(resource);
-			});
+			.exec(true) // true makes it throw if missing
+			.then((resource) => ResourceConverter.toDomain(resource));
 	}
 	async save(t: Resource): Promise<Resource> {
 		await this.collection.upsert(ResourceConverter.toDocument(t));
