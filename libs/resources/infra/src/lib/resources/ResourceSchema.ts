@@ -10,7 +10,7 @@ export type ResourceDocType = ResourceProperties & {
 	updatedAt: string;
 };
 
-export const ResourceSchema: RxJsonSchema<ResourceDocType> = {
+export const resourceSchema: RxJsonSchema<ResourceDocType> = {
 	version: 0,
 	primaryKey: "id",
 	type: "object",
@@ -51,4 +51,4 @@ export const ResourceSchema: RxJsonSchema<ResourceDocType> = {
 		"createdAt",
 		"updatedAt",
 	],
-};
+} as const;

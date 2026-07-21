@@ -1,8 +1,7 @@
 import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { addRxPlugin, createRxDatabase, type RxStorage } from "rxdb";
-import { disableWarnings, RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
 import { wrappedValidateAjvStorage } from "rxdb/plugins/validate-ajv";
-import { ResourceSchema } from "./resources/ResourceSchema";
+import { resourceSchema } from "./resources/ResourceSchema";
 
 type CreateDatabaseInput = {
 	storage: RxStorage<unknown, unknown>;
@@ -17,9 +16,11 @@ export class RxStorageAdapter {
 		devMode,
 	}: CreateDatabaseInput) => {
 		if (devMode) {
-			disableWarnings();
-			addRxPlugin(RxDBDevModePlugin);
-			storage = wrappedValidateAjvStorage({ storage });
+			await import("rxdb/plugins/dev-mode").then((module) => {
+				module.disableWarnings();
+				addRxPlugin(module.RxDBDevModePlugin);
+				storage = wrappedValidateAjvStorage({ storage });
+			});
 		}
 
 		const db = await createRxDatabase({
@@ -28,7 +29,7 @@ export class RxStorageAdapter {
 		});
 
 		await db.addCollections({
-			resources: { schema: ResourceSchema },
+			resources: { schema: resourceSchema },
 		});
 
 		return db;

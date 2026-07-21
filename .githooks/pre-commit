@@ -1,0 +1,15 @@
+#!/bin/sh
+
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=d | grep -E '\.(ts|html|css|scss|json)$')
+
+# Formatter (prettier/biome/editorconfig)
+bun nx run-many --parallel=false --tui=false -t=format:write,lint,test
+
+if [ $? -ne 0 ]; then
+  echo "Pre-commit: formatting failed. Commit aborted."
+  exit 1
+fi
+
+git add $STAGED_FILES
+
+exit 0

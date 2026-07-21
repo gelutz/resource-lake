@@ -20,7 +20,8 @@
         "./libs/resources/application/src/index.ts"
       ],
       "@rl/resources/infra": ["./libs/resources/infra/src/index.ts"],
-      "@rl/resources/ui": ["./libs/resources/ui/src/index.ts"]
+      "@rl/resources/ui": ["./libs/resources/ui/src/index.ts"],
+      "@rl/shared/util": ["./libs/shared/util/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
